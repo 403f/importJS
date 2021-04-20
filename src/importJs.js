@@ -564,3 +564,5 @@ const importClass = (function() {
 				
     return new localImClass();
 })();
+
+export default importClass;
