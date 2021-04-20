@@ -1,6 +1,6 @@
 const importClass = (function() {
 
-    let loadedpaths = [];
+    	let loadedpaths = [];
 	let uid = 1;
 				
 	let localImClass = function() {
@@ -9,7 +9,7 @@ const importClass = (function() {
 		let importTimeout = 100;
 		let retryTimes = 3;
 		let useAsync = false;
-	    let body = document.getElementsByTagName('head')[0];
+	    	let body = document.getElementsByTagName('head')[0];
 					
 		let asyncId = null;
 		let that = null;
@@ -23,7 +23,7 @@ const importClass = (function() {
 		let owner_importJsFiles = [];
 		let curContext = [];
 					
-	    let getOwner = function(path) {
+	   	let getOwner = function(path) {
 			if(owner_importJsFiles[path] == undefined) {
 				return null;
 			}
@@ -68,7 +68,7 @@ const importClass = (function() {
 				state_importJsFiles[path] = true;
 			}
 			return state_importJsFiles[path];
-        }
+        	}
 					
 		let handAsyncEvents = function() {
 			while(asyncEventHanders.length) {
@@ -105,14 +105,14 @@ const importClass = (function() {
 			js.setAttribute('src', path);
 						
 			return js;
-		};
+		}
 					
 		let loadPathToLoaded = function(path) {
 			let inx = loadedpaths.indexOf(path);
 			if(inx < 0) {
 				loadedpaths.push(path);
 			}
-		};
+		}
 					
 		let unloadPathToLoaded = function(path) {
 			let inx = loadedpaths.indexOf(path);
@@ -265,7 +265,7 @@ const importClass = (function() {
 				if(typeof envContext != 'object') {
 					throw new Error("the env's context must be object");
 				}
-			    let tmp_envContext = copyEnvContext(envContext);
+			    	let tmp_envContext = copyEnvContext(envContext);
 						
 				envContexts.push({'env':tmp_envContext,'path':path});
 			};
