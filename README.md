@@ -37,6 +37,6 @@
  
  · importClass.getInstance(retryTime, importTimeout, mode)
  
-   ~retryTime: the max reloaded times when the importfile cannot be reloaded by some problems.
-   ~importTimeout: the max waiting time of a loading period.
-   ~mode: true:async,  false:sync
+   ·retryTime: the max reloaded times when the importfile cannot be reloaded by some problems.
+   ·importTimeout: the max waiting time of a loading period.
+   ·mode: true:async,  false:sync
