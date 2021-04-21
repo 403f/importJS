@@ -10,3 +10,33 @@
   For solving these problems, i am developing it. The importJS can remove the wasted-jsresource dynamically.And it support async mode,sync mode and mixed mode. When you use sync mode , the remote resource must be allowed across-origin. When you use mixed mode, the priority list of import-mode is that sync > async. But if the application occur some error , the async's code also can be runned except the import js-resource cannot be loaded. The importJS also can help you remove the remote-jssource which is import repeatedly.So it's help you save the network resource,improve your web application's performance.
   
   Well, let's go for it!
+
+# How to use it?
+  Simple!
+  
+  · First
+    ```
+    import { importClass } from './importJS.js'
+    ```
+    
+  · Second 
+    ```
+    var importInstance = importClass.getInstance(4,300,false);
+    ```
+    
+   .Third
+    ```
+    importInstance.import([
+      'https://xxx.com/xx.js',
+      'https://xxx.com/xxxx.js'
+    ]).load().then(function() {
+      [run your code]
+    })
+    ```
+ # The API
+ 
+ · importClass.getInstance(retryTime, importTimeout, mode)
+ 
+   ~retryTime: the max reloaded times when the importfile cannot be reloaded by some problems.
+   ~importTimeout: the max waiting time of a loading period.
+   ~mode: true:async,  false:sync
