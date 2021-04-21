@@ -307,12 +307,17 @@ const importClass = (function() {
 				}
 				//repair the after realEnvContext
 				let realEnvDiff = [];
+				let curEnvDiff = [];
 				if(realEnvContext[1] > 0) {
 					let realBeforeEnvContext = copyEnvContext(envContexts[realEnvContext[1] - 1]['env']);
 					for(p in realEnvContext[0]) {
 						if(realBeforeEnvContext[p] == undefined) {
-							//console.log("different of env :" + p);
 							realEnvDiff.push(p);
+						}
+					}
+					for(curP in curEnvContext) {
+						if(envContexts[envContexts.length - 1]['env'][curP] == undefined) {
+							curEnvDiff.push(curP);
 						}
 					}
 					for(let j = realEnvContext[1]; j < envContexts.length; j++) {
@@ -330,7 +335,7 @@ const importClass = (function() {
 					throw new Error("there must be an error in your env or you must operate it illegally");
 				}
 				for(curP in curEnvContext) {
-					if(beforeEnvContext[curP] == undefined) {
+					if(beforeEnvContext[curP] == undefined && curEnvDiff.indexOf(curP) < 0) {
 						delete curEnvContext[curP];
 						continue;
 					}
