@@ -31,8 +31,24 @@ const importClass = (function() {
 		};
 					
 		let setOwner = function(path, owner) {
-			owner_importJsFiles[path] = owner;
+			if(owner_importJsFiles[path] == undefined) {
+				owner_importJsFiles[path] = [];
+			}
+			if(owner_importJsFiles[path].indexOf(owner) < 0) {
+				owner_importJsFiles[path].push(owner);
+			}
+
 			return owner;
+		}
+		
+		let delOwner = function(path, owner) {
+			if(owner_importJsFiles[path] == undefined 
+			|| owner_importJsFiles[path].indexOf(owner) < 0) {
+				return true;
+			}
+			let i = owner_importJsFiles[path].indexOf(owner);
+			owner_importJsFiles[path].splice(i, 1);
+			return true;
 		}
 					
 		let addGc = function(path) {
@@ -145,13 +161,19 @@ const importClass = (function() {
 					throw new Error("something was wrong in your pack context,please debug it");
 				}
 				if(gc_importJsFiles[path] > 1) {
-					decGc(path);
+					if( getOwner(path).indexOf(who.getUid()) >= 0) {
+						delOwner(path, who.getUid());
+						decGc(path);
+					}
 				} else {
 								
-				    if(document.getElementById(context[j].id)) {
+				    	if(document.getElementById(context[j].id) 
+					   && getOwner(path).indexOf(who.getUid()) >= 0) 
+					{
 						unloadPathToLoaded(path);
 						body.removeChild(context[j]);
 						who.recoverEnvContext(window, path);
+					    	delOwner(path, who.getUid());
 					}
 				}
 			}
@@ -391,15 +413,15 @@ const importClass = (function() {
 					}
 					let js = createJs(paths[j], startId + j);
 					context.push(js);
+					addGc(paths[j]);
+					setOwner(paths[j], that.getUid());
 					if(loadedpaths.indexOf(paths[j]) >= 0) {
-						addGc(paths[j]);
+
 						continue;
 					}
 								
 					importJsFiles.push(js);
 					changeState(paths[j], that);
-					addGc(paths[j]);
-					setOwner(paths[j], that.getUid());
 					startId++;
 				}
 				that.setContext(that, context);
@@ -421,7 +443,7 @@ const importClass = (function() {
 										
 							for(let i=0; i< importJsFiles.length; i++) {
 											
-								if(getOwner(importJsFiles[i].src) == that.getUid() 
+								if(getOwner(importJsFiles[i].src).indexOf(that.getUid()) >= 0
 									&& getState(importJsFiles[i].src)
 								)
 								{
@@ -461,7 +483,7 @@ const importClass = (function() {
 							for(let i = 0;i < importJsFiles.length; i++) {
 											
 								let path = importJsFiles[i].getAttribute('src');
-								if(getState(path) || getOwner(path) != that.getUid()) {
+								if(getState(path) || getOwner(path).indexOf(that.getUid()) < 0) {
 									continue;
 								}
 								XMLObj.open('GET', path, false);
@@ -536,7 +558,7 @@ const importClass = (function() {
 				if(this.getUseAsync()) {
 					asyncEventHanders.push(callback);
 									
-					return that;
+					return this;
 				} else {
 								
 					callback();
