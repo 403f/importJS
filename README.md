@@ -33,12 +33,23 @@
       [run your code]
     })
     ```
+    If you want to remove the import js-resource dynamically, please use ```importInstance.remove()```.
+    This method can remove the resource, can it can come back the enviroment of js context before you loaded jsresource.
+    Notaion: remove(), if other place which import the same js-source is using the js-resource, the js resource cannot be removed.  
  # The API
  
- · importClass.getInstance(retryTime, importTimeout, mode)
+ · ```javascript
+ importClass.getInstance(retryTime, importTimeout, mode)
+ ```
  
-   ·retryTime: the max reloaded times when the importfile cannot be reloaded by some problems.
+   ·```javascript
+   retryTime: the max reloaded times when the importfile cannot be reloaded by some problems.
+   ```
    
-   ·importTimeout: the max waiting time of a loading period.
+   ·```javascript
+   importTimeout: the max waiting time of a loading period.
+   ```
    
-   ·mode: true:async,  false:sync
+   ·```javascript
+   mode: true:async,  false:sync
+   ```
